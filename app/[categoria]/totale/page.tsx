@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
+import { supabase } from "../../../lib/supabase";
 
 type Elemento = {
   nome: string;
   punti: number;
+  categoria: string;
 };
 
 export default function Totale({
@@ -33,26 +35,33 @@ export default function Totale({
     );
   };
 
-  // Carica classifica
+  // Carica classifica da Supabase
   useEffect(() => {
-    const datiSalvati =
-      localStorage.getItem(
-        `classifica-${categoria}`
-      );
+    const caricaClassifica = async () => {
+      const { data, error } =
+        await supabase
+          .from("classifica")
+          .select("*")
+          .eq("categoria", categoria);
 
-    if (datiSalvati) {
-      const dati = JSON.parse(
-        datiSalvati
-      );
+      if (error) {
+        console.log(
+          "ERRORE SUPABASE:",
+          error
+        );
+        return;
+      }
 
-      const ordinata = [...dati].sort(
+      const ordinata = [...data].sort(
         (a, b) => b.punti - a.punti
       );
 
       setClassifica(
         mescolaArray(ordinata)
       );
-    }
+    };
+
+    caricaClassifica();
   }, [categoria]);
 
   // Seleziona/deseleziona
