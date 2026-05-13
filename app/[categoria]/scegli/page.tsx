@@ -55,11 +55,13 @@ export default function Scegli({
       .from("classifica")
       .select("*")
       .eq("categoria", categoria);
+      
+if (error) {
+  console.log("ERRORE SUPABASE:", error);
+  return;
+}
 
-    if (error) {
-      console.log(error);
-      return;
-    }
+console.log(data);
 
     setElementi(data || []);
 
