@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
-import { classifiche } from "../../data/classifiche";
+import { supabase } from "@/lib/supabase";
 
 type Elemento = {
+  id: number;
+  categoria: string;
   nome: string;
   punti: number;
 };
@@ -22,9 +24,6 @@ export default function Scegli({
   const [coppia, setCoppia] = useState([
     0, 1,
   ]);
-
-  const [caricato, setCaricato] =
-    useState(false);
 
   const generaCoppia = (
     lista: Elemento[]
@@ -46,66 +45,56 @@ export default function Scegli({
     return [primo, secondo];
   };
 
-  // CARICA dati
+  // CARICA DATI DA SUPABASE
   useEffect(() => {
-    const chiave =
-      `classifica-${categoria}`;
-
-    const datiSalvati =
-      localStorage.getItem(chiave);
-
-    if (datiSalvati) {
-      const classificaSalvata =
-        JSON.parse(datiSalvati);
-
-      setElementi(classificaSalvata);
-
-      setCoppia(
-        generaCoppia(
-          classificaSalvata
-        )
-      );
-    } else {
-      const classificaBase =
-        classifiche[
-          categoria as keyof typeof classifiche
-        ] || [];
-
-      setElementi(classificaBase);
-
-      localStorage.setItem(
-        chiave,
-        JSON.stringify(classificaBase)
-      );
-
-      setCoppia(
-        generaCoppia(classificaBase)
-      );
-    }
-
-    setCaricato(true);
+    caricaElementi();
   }, [categoria]);
 
-  // SALVA
-  useEffect(() => {
-    if (!caricato) return;
+  const caricaElementi = async () => {
+    const { data, error } = await supabase
+      .from("classifica")
+      .select("*")
+      .eq("categoria", categoria);
 
-    localStorage.setItem(
-      `classifica-${categoria}`,
-      JSON.stringify(elementi)
-    );
-  }, [
-    elementi,
-    caricato,
-    categoria,
-  ]);
+    if (error) {
+      console.log(error);
+      return;
+    }
 
-  const scegliElemento = (
-    indice: number
+    setElementi(data || []);
+
+    if (data && data.length >= 2) {
+      setCoppia(generaCoppia(data));
+    }
+  };
+
+  // VOTO
+  const scegliElemento = async (
+    elemento: Elemento
   ) => {
-    const nuovaLista = [...elementi];
+    const nuoviPunti =
+      elemento.punti + 1;
 
-    nuovaLista[indice].punti += 1;
+    const { error } = await supabase
+      .from("classifica")
+      .update({
+        punti: nuoviPunti,
+      })
+      .eq("id", elemento.id);
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    const nuovaLista = elementi.map((e) =>
+      e.id === elemento.id
+        ? {
+            ...e,
+            punti: nuoviPunti,
+          }
+        : e
+    );
 
     setElementi(nuovaLista);
 
@@ -114,7 +103,7 @@ export default function Scegli({
     );
   };
 
-  if (elementi.length === 0) {
+  if (elementi.length < 2) {
     return (
       <main
         className="
@@ -190,7 +179,9 @@ export default function Scegli({
       >
         <button
           onClick={() =>
-            scegliElemento(coppia[0])
+            scegliElemento(
+              elementi[coppia[0]]
+            )
           }
           className="
             w-full
@@ -224,7 +215,9 @@ export default function Scegli({
 
         <button
           onClick={() =>
-            scegliElemento(coppia[1])
+            scegliElemento(
+              elementi[coppia[1]]
+            )
           }
           className="
             w-full

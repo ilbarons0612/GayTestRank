@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
-import { classifiche } from "../../data/classifiche";
+import { supabase } from "@/lib/supabase";
+
+type Elemento = {
+  id: number;
+  categoria: string;
+  nome: string;
+  punti: number;
+};
 
 export default function Classifica({
   params,
@@ -12,49 +19,41 @@ export default function Classifica({
   const { categoria } = use(params);
 
   const [classifica, setClassifica] =
-    useState<any[]>([]);
+    useState<Elemento[]>([]);
 
   useEffect(() => {
-    const datiSalvati =
-      localStorage.getItem(
-        `classifica-${categoria}`
-      );
-
-    if (datiSalvati) {
-      setClassifica(
-        JSON.parse(datiSalvati)
-      );
-    } else {
-      const base =
-        classifiche[
-          categoria as keyof typeof classifiche
-        ] || [];
-
-      localStorage.setItem(
-        `classifica-${categoria}`,
-        JSON.stringify(base)
-      );
-
-      setClassifica(base);
-    }
+    caricaClassifica();
   }, [categoria]);
 
-  const classificaOrdinata = [
-    ...classifica,
-  ].sort((a, b) => b.punti - a.punti);
+  const caricaClassifica = async () => {
+    const { data, error } = await supabase
+      .from("classifica")
+      .select("*")
+      .eq("categoria", categoria)
+      .order("punti", {
+        ascending: false,
+      });
 
-  const resetClassifica = () => {
-    const base =
-      classifiche[
-        categoria as keyof typeof classifiche
-      ] || [];
+    if (error) {
+      console.log(error);
+      return;
+    }
 
-    localStorage.setItem(
-      `classifica-${categoria}`,
-      JSON.stringify(base)
-    );
+    setClassifica(data || []);
+  };
 
-    setClassifica(base);
+  const resetClassifica = async () => {
+    const { error } = await supabase
+      .from("classifica")
+      .update({ punti: 0 })
+      .eq("categoria", categoria);
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    caricaClassifica();
   };
 
   return (
@@ -158,10 +157,10 @@ export default function Classifica({
         </div>
 
         <div className="flex flex-col gap-4">
-          {classificaOrdinata.map(
+          {classifica.map(
             (elemento, index) => (
               <div
-                key={index}
+                key={elemento.id}
                 className="
                   bg-zinc-900
                   border
