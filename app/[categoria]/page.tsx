@@ -100,7 +100,7 @@ export default async function CategoriaPage({
             font-bold
           "
         >
-          🏆 Classifica Gay Ufficiale
+          🏆 Classifica {categoria} Ufficiale
         </Link>
 
         <Link
@@ -122,7 +122,7 @@ export default async function CategoriaPage({
             font-bold
           "
         >
-          ⚔️ Cosa è più gay?
+          ⚔️ Cosa è più {categoria}?
         </Link>
 
         <Link
@@ -144,7 +144,7 @@ export default async function CategoriaPage({
             font-bold
           "
         >
-          📊 Quanto sei gay?
+          📊 Quanto sei {categoria}?
         </Link>
       </div>
     </main>
