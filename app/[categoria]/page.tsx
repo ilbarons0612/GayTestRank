@@ -18,21 +18,28 @@ export default async function CategoriaPage({
         flex-col
         items-center
         justify-center
-        p-10
+        px-5
+        py-10
       "
     >
       <Link
         href="/"
         className="
           absolute
-          top-6
-          left-6
+          top-4
+          left-4
+          sm:top-6
+          sm:left-6
           bg-zinc-800
           hover:bg-zinc-700
+          active:scale-95
           px-4
           py-2
-          rounded-xl
+          rounded-2xl
           transition
+          text-sm
+          sm:text-base
+          shadow-lg
         "
       >
         ← Indietro
@@ -40,20 +47,36 @@ export default async function CategoriaPage({
 
       <h1
         className="
-          text-5xl
-          font-bold
-          mb-12
+          text-4xl
+          sm:text-5xl
+          md:text-6xl
+          font-black
+          mb-10
           capitalize
+          text-center
         "
       >
         🌈 {categoria}
       </h1>
 
+      <p
+        className="
+          text-zinc-400
+          text-center
+          mb-10
+          text-base
+          sm:text-lg
+          max-w-md
+        "
+      >
+        Scegli cosa vuoi fare.
+      </p>
+
       <div
         className="
           flex
           flex-col
-          gap-6
+          gap-5
           w-full
           max-w-md
         "
@@ -63,16 +86,21 @@ export default async function CategoriaPage({
           className="
             bg-blue-600
             hover:bg-blue-700
+            active:scale-95
             transition
-            p-6
+            duration-300
+            px-6
+            py-6
             rounded-3xl
-            text-2xl
+            text-xl
+            sm:text-2xl
             text-center
-            shadow-xl
+            shadow-2xl
             hover:scale-105
+            font-bold
           "
         >
-          🏆 Vai alla Classifica
+          🏆 Classifica Gay Ufficiale
         </Link>
 
         <Link
@@ -80,16 +108,21 @@ export default async function CategoriaPage({
           className="
             bg-pink-600
             hover:bg-pink-700
+            active:scale-95
             transition
-            p-6
+            duration-300
+            px-6
+            py-6
             rounded-3xl
-            text-2xl
+            text-xl
+            sm:text-2xl
             text-center
-            shadow-xl
+            shadow-2xl
             hover:scale-105
+            font-bold
           "
         >
-          ⚔️ Vai alle Scelte
+          ⚔️ Cosa è più gay?
         </Link>
 
         <Link
@@ -97,16 +130,21 @@ export default async function CategoriaPage({
           className="
             bg-purple-600
             hover:bg-purple-700
+            active:scale-95
             transition
-            p-6
+            duration-300
+            px-6
+            py-6
             rounded-3xl
-            text-2xl
+            text-xl
+            sm:text-2xl
             text-center
-            shadow-xl
+            shadow-2xl
             hover:scale-105
+            font-bold
           "
         >
-          📊 Vai al Totale
+          📊 Quanto sei gay?
         </Link>
       </div>
     </main>

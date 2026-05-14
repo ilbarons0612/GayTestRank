@@ -45,7 +45,7 @@ export default function Scegli({
     return [primo, secondo];
   };
 
-  // CARICA DATI DA SUPABASE
+  // CARICA DATI
   useEffect(() => {
     caricaElementi();
   }, [categoria]);
@@ -55,13 +55,14 @@ export default function Scegli({
       .from("classifica")
       .select("*")
       .eq("categoria", categoria);
-      
-if (error) {
-  console.log("ERRORE SUPABASE:", error);
-  return;
-}
 
-console.log(data);
+    if (error) {
+      console.log(
+        "ERRORE SUPABASE:",
+        error
+      );
+      return;
+    }
 
     setElementi(data || []);
 
@@ -115,9 +116,17 @@ console.log(data);
           flex
           items-center
           justify-center
+          px-6
         "
       >
-        <h1 className="text-3xl">
+        <h1
+          className="
+            text-2xl
+            sm:text-3xl
+            font-bold
+            text-center
+          "
+        >
           Caricamento...
         </h1>
       </main>
@@ -135,21 +144,28 @@ console.log(data);
         flex-col
         items-center
         justify-center
-        p-10
+        px-4
+        py-10
       "
     >
       <Link
         href={`/${categoria}`}
         className="
           absolute
-          top-6
-          left-6
+          top-4
+          left-4
+          sm:top-6
+          sm:left-6
           bg-zinc-800
           hover:bg-zinc-700
+          active:scale-95
           px-4
           py-2
-          rounded-xl
+          rounded-2xl
           transition
+          shadow-lg
+          text-sm
+          sm:text-base
         "
       >
         ← Indietro
@@ -157,24 +173,26 @@ console.log(data);
 
       <h1
         className="
-          text-5xl
-          font-bold
+          text-3xl
+          sm:text-5xl
+          font-black
           text-center
-          mb-16
+          mb-10
           capitalize
         "
       >
-        ⚔️ Scegli il preferito
+        ⚔️ Cosa è più gay? ⚔️
       </h1>
 
       <div
         className="
           flex
           flex-col
-          md:flex-row
+          lg:flex-row
           items-center
           justify-center
-          gap-10
+          gap-6
+          lg:gap-10
           w-full
           max-w-6xl
         "
@@ -187,16 +205,22 @@ console.log(data);
           }
           className="
             w-full
-            md:w-[350px]
-            h-[220px]
+            max-w-[420px]
+            min-h-[180px]
+            sm:min-h-[220px]
             bg-pink-600
             hover:bg-pink-700
+            active:scale-95
             rounded-3xl
-            text-4xl
-            font-bold
+            px-6
+            py-8
+            text-2xl
+            sm:text-4xl
+            font-black
             shadow-2xl
             transition
             hover:scale-105
+            break-words
           "
         >
           {
@@ -207,8 +231,9 @@ console.log(data);
 
         <div
           className="
-            text-5xl
-            font-bold
+            text-3xl
+            sm:text-5xl
+            font-black
             text-zinc-500
           "
         >
@@ -223,16 +248,22 @@ console.log(data);
           }
           className="
             w-full
-            md:w-[350px]
-            h-[220px]
+            max-w-[420px]
+            min-h-[180px]
+            sm:min-h-[220px]
             bg-purple-600
             hover:bg-purple-700
+            active:scale-95
             rounded-3xl
-            text-4xl
-            font-bold
+            px-6
+            py-8
+            text-2xl
+            sm:text-4xl
+            font-black
             shadow-2xl
             transition
             hover:scale-105
+            break-words
           "
         >
           {

@@ -35,36 +35,43 @@ export default function Totale({
     );
   };
 
-  // Carica classifica da Supabase
+  // Carica classifica
   useEffect(() => {
-    const caricaClassifica = async () => {
-      const { data, error } =
-        await supabase
-          .from("classifica")
-          .select("*")
-          .eq("categoria", categoria);
+    const caricaClassifica =
+      async () => {
+        const { data, error } =
+          await supabase
+            .from("classifica")
+            .select("*")
+            .eq(
+              "categoria",
+              categoria
+            );
 
-      if (error) {
-        console.log(
-          "ERRORE SUPABASE:",
-          error
+        if (error) {
+          console.log(
+            "ERRORE SUPABASE:",
+            error
+          );
+          return;
+        }
+
+        const ordinata = [
+          ...(data || []),
+        ].sort(
+          (a, b) =>
+            b.punti - a.punti
         );
-        return;
-      }
 
-      const ordinata = [...data].sort(
-        (a, b) => b.punti - a.punti
-      );
-
-      setClassifica(
-        mescolaArray(ordinata)
-      );
-    };
+        setClassifica(
+          mescolaArray(ordinata)
+        );
+      };
 
     caricaClassifica();
   }, [categoria]);
 
-  // Seleziona/deseleziona
+  // Toggle checkbox
   const toggleElemento = (
     nome: string
   ) => {
@@ -118,7 +125,7 @@ export default function Totale({
       0
     );
 
-  // Percentuale finale
+  // Percentuale
   const percentuale =
     puntiMassimi > 0
       ? (
@@ -135,21 +142,28 @@ export default function Totale({
         min-h-screen
         bg-zinc-950
         text-white
-        p-10
+        px-4
+        py-10
       "
     >
       <Link
         href={`/${categoria}`}
         className="
           absolute
-          top-6
-          left-6
+          top-4
+          left-4
+          sm:top-6
+          sm:left-6
           bg-zinc-800
           hover:bg-zinc-700
+          active:scale-95
           px-4
           py-2
-          rounded-xl
+          rounded-2xl
           transition
+          shadow-lg
+          text-sm
+          sm:text-base
         "
       >
         ← Indietro
@@ -163,10 +177,11 @@ export default function Totale({
       >
         <h1
           className="
-            text-5xl
-            font-bold
+            text-3xl
+            sm:text-5xl
+            font-black
             text-center
-            mb-12
+            mb-8
             capitalize
           "
         >
@@ -177,7 +192,7 @@ export default function Totale({
           className="
             flex
             flex-col
-            gap-4
+            gap-3
           "
         >
           {classifica.map(
@@ -189,14 +204,17 @@ export default function Totale({
                   border
                   border-zinc-700
                   rounded-2xl
-                  p-5
+                  p-4
+                  sm:p-5
                   flex
                   items-center
                   gap-4
-                  text-xl
+                  text-base
+                  sm:text-xl
                   cursor-pointer
                   hover:bg-zinc-800
                   transition
+                  break-words
                 "
               >
                 <input
@@ -208,12 +226,17 @@ export default function Totale({
                     )
                   }
                   className="
-                    w-6
-                    h-6
+                    w-5
+                    h-5
+                    sm:w-6
+                    sm:h-6
+                    shrink-0
                   "
                 />
 
-                {elemento.nome}
+                <span>
+                  {elemento.nome}
+                </span>
               </label>
             )
           )}
@@ -231,15 +254,19 @@ export default function Totale({
                 setCompletato(true)
               }
               className="
-                mt-10
+                mt-8
+                w-full
+                sm:w-auto
                 bg-pink-600
                 hover:bg-pink-700
+                active:scale-95
                 transition
                 px-10
                 py-4
                 rounded-3xl
-                text-2xl
-                font-bold
+                text-xl
+                sm:text-2xl
+                font-black
                 shadow-2xl
                 hover:scale-105
               "
@@ -252,19 +279,21 @@ export default function Totale({
         {completato && (
           <div
             className="
-              mt-14
+              mt-10
               bg-zinc-900
               border
               border-zinc-700
               rounded-3xl
-              p-10
+              p-6
+              sm:p-10
               text-center
               shadow-2xl
             "
           >
             <h2
               className="
-                text-3xl
+                text-xl
+                sm:text-3xl
                 mb-4
               "
             >
@@ -274,10 +303,11 @@ export default function Totale({
 
             <h1
               className="
-                text-7xl
-                font-bold
+                text-5xl
+                sm:text-7xl
+                font-black
                 text-pink-400
-                mb-8
+                mb-6
               "
             >
               {percentuale}%
@@ -285,7 +315,13 @@ export default function Totale({
 
             {Number(percentuale) <
               10 && (
-              <h2 className="text-4xl">
+              <h2
+                className="
+                  text-2xl
+                  sm:text-4xl
+                  font-bold
+                "
+              >
                 🪨 Etero (EW)
               </h2>
             )}
@@ -294,9 +330,15 @@ export default function Totale({
               10 &&
               Number(percentuale) <
                 30 && (
-                <h2 className="text-4xl">
-                  🥉 Etero tendente al
-                  gay
+                <h2
+                  className="
+                    text-2xl
+                    sm:text-4xl
+                    font-bold
+                  "
+                >
+                  🥉 Etero tendente
+                  al gay
                 </h2>
               )}
 
@@ -304,7 +346,13 @@ export default function Totale({
               30 &&
               Number(percentuale) <
                 50 && (
-                <h2 className="text-4xl">
+                <h2
+                  className="
+                    text-2xl
+                    sm:text-4xl
+                    font-bold
+                  "
+                >
                   🥈 Gay
                 </h2>
               )}
@@ -313,14 +361,26 @@ export default function Totale({
               50 &&
               Number(percentuale) <
                 90 && (
-                <h2 className="text-4xl">
+                <h2
+                  className="
+                    text-2xl
+                    sm:text-4xl
+                    font-bold
+                  "
+                >
                   🥇 Gay Esperto
                 </h2>
               )}
 
             {Number(percentuale) >=
               90 && (
-              <h2 className="text-4xl">
+              <h2
+                className="
+                  text-2xl
+                  sm:text-4xl
+                  font-bold
+                "
+              >
                 👑 Super Gay
                 Leggendario
               </h2>

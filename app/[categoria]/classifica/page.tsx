@@ -63,21 +63,28 @@ export default function Classifica({
         min-h-screen
         bg-zinc-950
         text-white
-        p-10
+        px-4
+        py-10
       "
     >
       <Link
         href={`/${categoria}`}
         className="
           absolute
-          top-6
-          left-6
+          top-4
+          left-4
+          sm:top-6
+          sm:left-6
           bg-zinc-800
           hover:bg-zinc-700
+          active:scale-95
           px-4
           py-2
-          rounded-xl
+          rounded-2xl
           transition
+          shadow-lg
+          text-sm
+          sm:text-base
         "
       >
         ← Indietro
@@ -85,16 +92,17 @@ export default function Classifica({
 
       <div
         className="
-          max-w-2xl
+          max-w-3xl
           mx-auto
         "
       >
         <h1
           className="
-            text-5xl
-            font-bold
+            text-3xl
+            sm:text-5xl
+            font-black
             text-center
-            mb-10
+            mb-8
             capitalize
           "
         >
@@ -104,10 +112,11 @@ export default function Classifica({
         <div
           className="
             flex
-            flex-wrap
+            flex-col
+            sm:flex-row
             gap-4
             justify-center
-            mb-10
+            mb-8
           "
         >
           <Link
@@ -115,11 +124,15 @@ export default function Classifica({
             className="
               bg-pink-600
               hover:bg-pink-700
+              active:scale-95
               transition
               px-6
-              py-3
+              py-4
               rounded-2xl
               shadow-lg
+              text-center
+              font-bold
+              w-full
             "
           >
             ⚔️ Vai alle Scelte
@@ -130,11 +143,15 @@ export default function Classifica({
             className="
               bg-purple-600
               hover:bg-purple-700
+              active:scale-95
               transition
               px-6
-              py-3
+              py-4
               rounded-2xl
               shadow-lg
+              text-center
+              font-bold
+              w-full
             "
           >
             📊 Vai al Totale
@@ -145,18 +162,21 @@ export default function Classifica({
             className="
               bg-red-600
               hover:bg-red-700
+              active:scale-95
               transition
               px-6
-              py-3
+              py-4
               rounded-2xl
               shadow-lg
+              font-bold
+              w-full
             "
           >
             🔄 Reset
           </button>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           {classifica.map(
             (elemento, index) => (
               <div
@@ -166,10 +186,12 @@ export default function Classifica({
                   border
                   border-zinc-700
                   rounded-3xl
-                  p-5
+                  p-4
+                  sm:p-5
                   flex
                   justify-between
                   items-center
+                  gap-4
                   shadow-lg
                 "
               >
@@ -177,13 +199,16 @@ export default function Classifica({
                   className="
                     flex
                     items-center
-                    gap-4
+                    gap-3
+                    min-w-0
                   "
                 >
                   <div
                     className="
-                      text-3xl
-                      font-bold
+                      text-2xl
+                      sm:text-3xl
+                      font-black
+                      shrink-0
                     "
                   >
                     #{index + 1}
@@ -191,7 +216,9 @@ export default function Classifica({
 
                   <div
                     className="
-                      text-2xl
+                      text-base
+                      sm:text-2xl
+                      break-words
                     "
                   >
                     {elemento.nome}
@@ -200,9 +227,11 @@ export default function Classifica({
 
                 <div
                   className="
-                    text-xl
+                    text-sm
+                    sm:text-xl
                     text-pink-400
-                    font-bold
+                    font-black
+                    shrink-0
                   "
                 >
                   {elemento.punti} pt
