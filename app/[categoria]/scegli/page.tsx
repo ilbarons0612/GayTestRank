@@ -181,7 +181,7 @@ export default function Scegli({
           capitalize
         "
       >
-        ⚔️ Cosa è più gay? ⚔️
+        ⚔️ Cosa è più {categoria}? ⚔️
       </h1>
 
       <div
