@@ -322,7 +322,7 @@ export default function Totale({
                   font-bold
                 "
               >
-                🪨 Etero (EW)
+                🤮 Etero (EW)
               </h2>
             )}
 
@@ -337,8 +337,8 @@ export default function Totale({
                     font-bold
                   "
                 >
-                  🥉 Etero tendente
-                  al gay
+                  😏 Etero tendente
+                  al {categoria}
                 </h2>
               )}
 
@@ -353,7 +353,7 @@ export default function Totale({
                     font-bold
                   "
                 >
-                  🥈 Gay
+                  🤩 {categoria}
                 </h2>
               )}
 
@@ -368,7 +368,7 @@ export default function Totale({
                     font-bold
                   "
                 >
-                  🥇 Gay Esperto
+                  🥵 {categoria} Esperto
                 </h2>
               )}
 
@@ -381,7 +381,7 @@ export default function Totale({
                   font-bold
                 "
               >
-                👑 Super Gay
+                🫦👅 Super {categoria}
                 Leggendario
               </h2>
             )}
