@@ -119,61 +119,6 @@ export default function Classifica({
             mb-8
           "
         >
-          <Link
-            href={`/${categoria}/scegli`}
-            className="
-              bg-pink-600
-              hover:bg-pink-700
-              active:scale-95
-              transition
-              px-6
-              py-4
-              rounded-2xl
-              shadow-lg
-              text-center
-              font-bold
-              w-full
-            "
-          >
-            ⚔️ Vai alle Scelte
-          </Link>
-
-          <Link
-            href={`/${categoria}/totale`}
-            className="
-              bg-purple-600
-              hover:bg-purple-700
-              active:scale-95
-              transition
-              px-6
-              py-4
-              rounded-2xl
-              shadow-lg
-              text-center
-              font-bold
-              w-full
-            "
-          >
-            📊 Vai al Totale
-          </Link>
-
-          <button
-            onClick={resetClassifica}
-            className="
-              bg-red-600
-              hover:bg-red-700
-              active:scale-95
-              transition
-              px-6
-              py-4
-              rounded-2xl
-              shadow-lg
-              font-bold
-              w-full
-            "
-          >
-            🔄 Reset
-          </button>
         </div>
 
         <div className="flex flex-col gap-3">
